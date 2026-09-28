@@ -41,13 +41,15 @@ function autenticarUsuario(event) {
     }
 }
 
-// Alternar exibição das abas (HOME, MOTORISTA, VEÍCULOS, LICENÇAS, VENCIMENTOS)
+// Alternar exibição das abas (HOME, MOTORISTA, VEÍCULOS, LICENÇAS, VENCIMENTOS, PERDAS/SOBRAS, ESTADIA)
 function selecionarAba(aba) {
     const painelHome = document.getElementById('painelHome');
     const painelBusca = document.getElementById('painelBusca');
     const painelVeiculo = document.getElementById('painelVeiculo');
     const painelLicencas = document.getElementById('painelLicencas');
     const painelVencimentos = document.getElementById('painelVencimentos');
+    const painelPerdasSobras = document.getElementById('painelPerdasSobras');
+    const painelEstadia = document.getElementById('painelEstadia');
     
     // Remove classe ativa de todos os botões do menu
     document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
@@ -58,6 +60,8 @@ function selecionarAba(aba) {
     if (painelVeiculo) painelVeiculo.style.display = 'none';
     if (painelLicencas) painelLicencas.style.display = 'none';
     if (painelVencimentos) painelVencimentos.style.display = 'none';
+    if (painelPerdasSobras) painelPerdasSobras.style.display = 'none';
+    if (painelEstadia) painelEstadia.style.display = 'none';
 
     // Ativa o painel correspondente
     if (aba === 'home') {
@@ -86,6 +90,16 @@ function selecionarAba(aba) {
         const btnVencimentos = document.getElementById('btnVencimentos');
         if (btnVencimentos) btnVencimentos.classList.add('active');
         if (painelVencimentos) painelVencimentos.style.display = 'block';
+        pararCarrosselAuto();
+    } else if (aba === 'perdasSobras') {
+        const btnPerdasSobras = document.getElementById('btnPerdasSobras');
+        if (btnPerdasSobras) btnPerdasSobras.classList.add('active');
+        if (painelPerdasSobras) painelPerdasSobras.style.display = 'block';
+        pararCarrosselAuto();
+    } else if (aba === 'estadia') {
+        const btnEstadia = document.getElementById('btnEstadia');
+        if (btnEstadia) btnEstadia.classList.add('active');
+        if (painelEstadia) painelEstadia.style.display = 'block';
         pararCarrosselAuto();
     }
 }
