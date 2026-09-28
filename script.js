@@ -18,6 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// FUNÇÃO PARA ABRIR E FECHAR O SUBMENU (ACESSO DOCUMENTAÇÃO)
+function toggleSubmenu(button) {
+    const dropdown = button.closest('.nav-dropdown');
+    if (dropdown) {
+        dropdown.classList.toggle('open');
+    }
+}
+
 // Autenticação e Redirecionamento da Tela de Login
 function autenticarUsuario(event) {
     event.preventDefault();

@@ -51,15 +51,26 @@
                 <button class="nav-item active" id="btnHome" onclick="selecionarAba('home')">
                     <span>HOME</span>
                 </button>
-                <button class="nav-item" id="btnMotorista" onclick="selecionarAba('motorista')">
-                    <span>MOTORISTA</span>
-                </button>
-                <button class="nav-item" id="btnVeiculo" onclick="selecionarAba('veiculo')">
-                    <span>VEÍCULOS</span>
-                </button>
-                <button class="nav-item" id="btnLicencas" onclick="selecionarAba('licencas')">
-                    <span>LICENÇAS</span>
-                </button>
+
+                <!-- MENU PAI: ACESSO DOCUMENTAÇÃO COM SUBMENUS -->
+                <div class="nav-dropdown">
+                    <button class="nav-item" onclick="toggleSubmenu(this)" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                        <span>DOCUMENTOS</span>
+                        <i class="fa-solid fa-chevron-down arrow-icon" style="font-size: 0.8rem; transition: transform 0.3s;"></i>
+                    </button>
+                    
+                    <div class="submenu" style="display: none;">
+                        <button class="nav-item" id="btnMotorista" onclick="selecionarAba('motorista')" style="padding-left: 35px; font-size: 0.85rem;">
+                            <span>MOTORISTA</span>
+                        </button>
+                        <button class="nav-item" id="btnVeiculo" onclick="selecionarAba('veiculo')" style="padding-left: 35px; font-size: 0.85rem;">
+                            <span>VEICULOS</span>
+                        </button>
+                        <button class="nav-item" id="btnLicencas" onclick="selecionarAba('licencas')" style="padding-left: 35px; font-size: 0.85rem;">
+                            <span>LICENÇAS</span>
+                        </button>
+                    </div>
+                </div>
             </nav>
 
             <div class="sidebar-bottom">

@@ -118,6 +118,38 @@ body {
     background-color: #004520;
 }
 
+/* --- REGRAS DO SUBMENU (Ajustado para ocupar 100% da largura e ajustar a fonte) --- */
+.nav-dropdown {
+    width: 100%;
+}
+
+.submenu {
+    width: 100%;
+}
+
+.submenu .nav-item {
+    width: 100% !important;
+    display: flex !important;
+    font-size: 0.8rem !important; /* Fonte menor que o menu principal */
+    padding: 10px 20px 10px 30px !important; /* Indentação leve mantendo alinhamento */
+    box-sizing: border-box !important;
+}
+
+.submenu .nav-item:hover, 
+.submenu .nav-item.active {
+    background-color: #004520 !important;
+    width: 100% !important;
+}
+
+.nav-dropdown.open .submenu {
+    display: block !important;
+}
+
+.nav-dropdown.open .arrow-icon {
+    transform: rotate(180deg);
+}
+/* ----------------------------------------------------------------- */
+
 .sidebar-bottom {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
