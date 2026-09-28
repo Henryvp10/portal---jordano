@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Portal Transjordano</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body class="login-page-body">
+
+    <div class="login-container">
+        <div class="login-card">
+            
+            <div class="login-header">
+                <h2>TRANSJORDANO</h2>
+                <p>Acesse com suas credenciais para continuar</p>
+            </div>
+
+            <form id="formLogin" onsubmit="autenticarUsuario(event)">
+                <div class="form-group">
+                    <label for="usuarioLogin">E-mail ou Usuário <span class="required">*</span></label>
+                    <input type="text" id="usuarioLogin" placeholder="Digite seu e-mail ou usuário" required>
+                </div>
+
+                <div class="form-group" style="margin-top: 15px;">
+                    <label for="senhaLogin">Senha <span class="required">*</span></label>
+                    <input type="password" id="senhaLogin" placeholder="Digite sua senha" required>
+                </div>
+
+                <button type="submit" class="btn-login">ENTRAR</button>
+            </form>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+    <!-- Integração do Firebase Auth -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+      import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyA7Z5YR7dMRGboOZS9RwGRGf5fdL5KCvPM",
+        authDomain: "transjordano-aa4cf.firebaseapp.com",
+        projectId: "transjordano-aa4cf",
+        storageBucket: "transjordano-aa4cf.firebasestorage.app",
+        messagingSenderId: "654667608333",
+        appId: "1:654667608333:web:e734de92664c821ec64044",
+        measurementId: "G-F6ZXYEFR8B"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+
+      window.autenticarUsuario = function(event) {
+          event.preventDefault();
+          
+          const email = document.getElementById('usuarioLogin').value.trim();
+          const senha = document.getElementById('senhaLogin').value.trim();
+
+          signInWithEmailAndPassword(auth, email, senha)
+            .then((userCredential) => {
+              window.location.href = "index.html";
+            })
+            .catch((error) => {
+              alert("Erro ao realizar login: Verifique seu e-mail e senha.");
+            });
+      };
+    </script>
+</body>
+</html>

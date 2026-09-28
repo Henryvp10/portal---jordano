@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transjordano</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Topbar Superior -->
+    <header class="topbar">
+        <div class="topbar-left">
+            <button class="btn-toggle-menu" onclick="toggleMenu()" title="Alternar Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="brand-portal">
+                <h1>TRANSJORDANO</h1>
+            </div>
+        </div>
+
+        <!-- LOGO CENTRALIZADA DA EMPRESA -->
+        <div class="topbar-center" style="flex: 1; display: flex; justify-content: center; align-items: center;">
+            <img src="static/imagens/logo.png" alt="Logo Empresa" style="max-height: 52px; width: auto; margin-left: 80px;">
+        </div>
+
+        <div class="topbar-right">
+            <div class="user-info">
+                <span class="cnp-info">02.804.490/0001-79 - TRANSJORDANO LTDA</span>
+                <span class="user-email">henryperessinotti@transjordano.com.br</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Layout com Sidebar e Conteúdo -->
+    <div class="main-wrapper">
+        
+        <!-- Menu Lateral Verde -->
+        <aside class="sidebar-portal" id="sidebar">
+            <div class="sidebar-header">
+                <button class="btn-close-sidebar" onclick="toggleMenu()" title="Fechar Menu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-item active" id="btnHome" onclick="selecionarAba('home')">
+                    <span>HOME</span>
+                </button>
+                <button class="nav-item" id="btnMotorista" onclick="selecionarAba('motorista')">
+                    <span>MOTORISTA</span>
+                </button>
+                <button class="nav-item" id="btnVeiculo" onclick="selecionarAba('veiculo')">
+                    <span>VEÍCULOS</span>
+                </button>
+                <button class="nav-item" id="btnLicencas" onclick="selecionarAba('licencas')">
+                    <span>LICENÇAS</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <button class="nav-item btn-exit" onclick="sairDaPagina()">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Sair da página</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Área de Conteúdo da Aplicação -->
+        <main class="content-area">
+
+            <!-- Carrossel Exclusivo para o Menu HOME -->
+            <div class="home-panel" id="painelHome">
+                <div class="carousel-container">
+                    <div class="carousel-slide fade"><img src="static/imagens/transjordano1.png" alt="Transjordano 1"></div>
+                    <div class="carousel-slide fade"><img src="static/imagens/transjordano2.png" alt="Transjordano 2"></div>
+                    <div class="carousel-slide fade"><img src="static/imagens/transjordano3.png" alt="Transjordano 3"></div>
+                    <div class="carousel-slide fade"><img src="static/imagens/transjordano6.png" alt="Transjordano 6"></div>
+                    <div class="carousel-slide fade"><img src="static/imagens/transjordano7.png" alt="Transjordano 7"></div>
+                    <div class="carousel-slide fade"><img src="static/imagens/transjordano8.png" alt="Transjordano 8"></div>
+                    <div class="carousel-slide fade"><img src="static/imagens/transjordano9.png" alt="Transjordano 9"></div>
+
+                    <button class="prev" onclick="mudarSlide(-1)">&#10094;</button>
+                    <button class="next" onclick="mudarSlide(1)">&#10095;</button>
+
+                    <div class="carousel-dots">
+                        <span class="dot" onclick="irParaSlide(0)"></span>
+                        <span class="dot" onclick="irParaSlide(1)"></span>
+                        <span class="dot" onclick="irParaSlide(2)"></span>
+                        <span class="dot" onclick="irParaSlide(3)"></span>
+                        <span class="dot" onclick="irParaSlide(4)"></span>
+                        <span class="dot" onclick="irParaSlide(5)"></span>
+                        <span class="dot" onclick="irParaSlide(6)"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Painel de Formulário - Motorista -->
+            <div class="search-panel" id="painelBusca" style="display: none;">
+                <h2 id="tituloAba">Consulta de Documentos - Motorista</h2>
+                
+                <form id="formMotorista" onsubmit="event.preventDefault(); enviarSolicitacaoMotorista();">
+                    <!-- Topo: Dados do Condutor -->
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label for="nomeMotorista">Nome Completo do Condutor <span class="required">*</span></label>
+                            <input type="text" id="nomeMotorista" placeholder="Digite o nome completo do condutor..." required>
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="cpfMotorista">CPF do Condutor <span class="required">*</span></label>
+                            <input type="text" id="cpfMotorista" placeholder="000.000.000-00" required maxlength="14" oninput="mascaraCPF(this)">
+                        </div>
+                    </div>
+
+                    <!-- Meio: Checklist de Documentos -->
+                    <div class="doc-checklist-container">
+                        <div class="checklist-header">
+                            <h3>Selecione os Documentos Desejados:</h3>
+                            <label class="checkbox-label select-all-label">
+                                <input type="checkbox" id="chkTodosDocs" onclick="marcarTodosDocs(this)">
+                                <strong>Selecionar Todos</strong>
+                            </label>
+                        </div>
+
+                        <div class="checklist-grid">
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check" value="CNH / Carteira de Habilitação">
+                                <span>CNH / Carteira de Habilitação</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check" value="ASO - Atestado Ocupacional">
+                                <span>ASO (Atestado Ocupacional)</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check" value="Curso MOPP">
+                                <span>Certificado Curso MOPP</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check" value="NR20">
+                                <span>NR20</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check" value="NR35">
+                                <span>NR35</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check" value="TOXICOLOGICO">
+                                <span>TOXICOLOGICO</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check" value="AV.PSICOLOGICA">
+                                <span>AV.PSICOLOGICA</span>
+                            </label>
+                        </div>
+
+                        <!-- Botão Limpar pequeno à direita -->
+                        <div style="display: flex; justify-content: flex-end; margin-top: 15px; width: 100%;">
+                            <button type="button" class="btn-clear-form" style="width: auto !important; max-width: 140px !important; padding: 8px 20px !important; margin-left: auto !important;" onclick="limparFormularioMotorista()">
+                                <i class="fa-solid fa-eraser"></i> Limpar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Rodapé: E-mail Obrigatório e Envio -->
+                    <div class="form-row bottom-email-section">
+                        <div class="form-group flex-2">
+                            <label for="emailSolicitante">E-mail para Recebimento dos Documentos <span class="required">*</span></label>
+                            <input type="email" id="emailSolicitante" placeholder="seuemail@transjordano.com.br" required>
+                        </div>
+                        <div class="form-group flex-1 btn-container-bottom">
+                            <button type="submit" class="btn-send-email">
+                                <i class="fa-solid fa-paper-plane"></i> Enviar Documentos Selecionados
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Painel de Formulário - Veículos -->
+            <div class="search-panel" id="painelVeiculo" style="display: none;">
+                <h2>Consulta de Documentos - Veículos</h2>
+                
+                <form id="formVeiculo" onsubmit="event.preventDefault(); enviarSolicitacaoVeiculo();">
+                    <!-- Topo: Placa do Veículo -->
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label for="placaVeiculo">Placa do Veículo <span class="required">*</span></label>
+                            <input type="text" id="placaVeiculo" placeholder="ABC-1234 ou ABC1D23" required style="text-transform: uppercase;">
+                        </div>
+                    </div>
+
+                    <!-- Meio: Checklist de Documentos do Veículo -->
+                    <div class="doc-checklist-container">
+                        <div class="checklist-header">
+                            <h3>Selecione os Documentos Desejados:</h3>
+                            <label class="checkbox-label select-all-label">
+                                <input type="checkbox" id="chkTodosDocsVeiculo" onclick="marcarTodosDocsVeiculo(this)">
+                                <strong>Selecionar Todos</strong>
+                            </label>
+                        </div>
+
+                        <div class="checklist-grid">
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check-veiculo" value="CRONOTACOGRAFO">
+                                <span>CRONOTACOGRAFO</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check-veiculo" value="CIV">
+                                <span>CIV</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check-veiculo" value="CRLV">
+                                <span>CRLV</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check-veiculo" value="CIPP">
+                                <span>CIPP</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check-veiculo" value="CALIBRAGEM">
+                                <span>CALIBRAGEM</span>
+                            </label>
+                        </div>
+
+                        <!-- Botão Limpar pequeno à direita -->
+                        <div style="display: flex; justify-content: flex-end; margin-top: 15px; width: 100%;">
+                            <button type="button" class="btn-clear-form" style="width: auto !important; max-width: 140px !important; padding: 8px 20px !important; margin-left: auto !important;" onclick="limparFormularioVeiculo()">
+                                <i class="fa-solid fa-eraser"></i> Limpar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Rodapé: E-mail Obrigatório e Envio -->
+                    <div class="form-row bottom-email-section">
+                        <div class="form-group flex-2">
+                            <label for="emailSolicitanteVeiculo">E-mail para Recebimento dos Documentos <span class="required">*</span></label>
+                            <input type="email" id="emailSolicitanteVeiculo" placeholder="seuemail@transjordano.com.br" required>
+                        </div>
+                        <div class="form-group flex-1 btn-container-bottom">
+                            <button type="submit" class="btn-send-email">
+                                <i class="fa-solid fa-paper-plane"></i> Enviar Documentos Selecionados
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Painel de Formulário - Licenças -->
+            <div class="search-panel" id="painelLicencas" style="display: none;">
+                <h2>Consulta de Licenças</h2>
+                
+                <form id="formLicencas" onsubmit="event.preventDefault(); enviarSolicitacaoLicencas();">
+                    <!-- Topo: Estado (UF) -->
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="estadoLicenca">Estado (UF) <span class="required">*</span></label>
+                            <select id="estadoLicenca" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                                <option value="" disabled selected>Selecione a UF</option>
+                                <option value="AC">AC</option>
+                                <option value="AL">AL</option>
+                                <option value="AP">AP</option>
+                                <option value="AM">AM</option>
+                                <option value="BA">BA</option>
+                                <option value="CE">CE</option>
+                                <option value="DF">DF</option>
+                                <option value="ES">ES</option>
+                                <option value="GO">GO</option>
+                                <option value="MA">MA</option>
+                                <option value="MT">MT</option>
+                                <option value="MS">MS</option>
+                                <option value="MG">MG</option>
+                                <option value="PA">PA</option>
+                                <option value="PB">PB</option>
+                                <option value="PR">PR</option>
+                                <option value="PE">PE</option>
+                                <option value="PI">PI</option>
+                                <option value="RJ">RJ</option>
+                                <option value="RN">RN</option>
+                                <option value="RS">RS</option>
+                                <option value="RO">RO</option>
+                                <option value="RR">RR</option>
+                                <option value="SC">SC</option>
+                                <option value="SP">SP</option>
+                                <option value="SE">SE</option>
+                                <option value="TO">TO</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Meio: Checklist de Documentos das Licenças -->
+                    <div class="doc-checklist-container">
+                        <div class="checklist-header">
+                            <h3>Selecione os Documentos Desejados:</h3>
+                            <label class="checkbox-label select-all-label">
+                                <input type="checkbox" id="chkTodosDocsLicencas" onclick="marcarTodosDocsLicencas(this)">
+                                <strong>Selecionar Todos</strong>
+                            </label>
+                        </div>
+
+                        <div class="checklist-grid">
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check-licencas" value="AET">
+                                <span>AET</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check-licencas" value="IBAMA_AMBIENTAL">
+                                <span>IBAMA / AMBIENTAL</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check-licencas" value="LETPP">
+                                <span>LETPP</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check-licencas" value="LICENCA_OPERACAO">
+                                <span>LICENÇA DE OPERAÇÃO</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check-licencas" value="ANTT">
+                                <span>ANTT</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="doc-check-licencas" value="CADASTRO FEDERAL">
+                                <span>CADASTRO FEDERAL</span>
+                            </label>
+                        </div>
+
+                        <!-- Botão Limpar -->
+                        <div style="display: flex; justify-content: flex-end; margin-top: 15px; width: 100%;">
+                            <button type="button" class="btn-clear-form" style="width: auto !important; max-width: 140px !important; padding: 8px 20px !important; margin-left: auto !important;" onclick="limparFormularioLicencas()">
+                                <i class="fa-solid fa-eraser"></i> Limpar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Rodapé: E-mail Obrigatório e Envio -->
+                    <div class="form-row bottom-email-section">
+                        <div class="form-group flex-2">
+                            <label for="emailSolicitanteLicencas">E-mail para Recebimento dos Documentos <span class="required">*</span></label>
+                            <input type="email" id="emailSolicitanteLicencas" placeholder="seuemail@transjordano.com.br" required>
+                        </div>
+                        <div class="form-group flex-1 btn-container-bottom">
+                            <button type="submit" class="btn-send-email">
+                                <i class="fa-solid fa-paper-plane"></i> Enviar Documentos Selecionados
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Painel Interditado - Vencimentos (Sem bordas, 100% preenchido) -->
+            <div id="painelVencimentos" style="display: none; width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;">
+                <img src="static/imagens/interditado.png" alt="Menu Interditado" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0;">
+            </div>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+
+    <!-- Verificação de Sessão Firebase e Preenchimento do E-mail -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+      import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyA7Z5YR7dMRGboOZS9RwGRGf5fdL5KCvPM",
+        authDomain: "transjordano-aa4cf.firebaseapp.com",
+        projectId: "transjordano-aa4cf",
+        storageBucket: "transjordano-aa4cf.firebasestorage.app",
+        messagingSenderId: "654667608333",
+        appId: "1:654667608333:web:e734de92664c821ec64044",
+        measurementId: "G-F6ZXYEFR8B"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          const emailUser = user.email;
+          const userEmailSpan = document.querySelector('.user-email');
+          const emailSolicitanteInput = document.getElementById('emailSolicitante');
+          const emailSolicitanteVeiculoInput = document.getElementById('emailSolicitanteVeiculo');
+          const emailSolicitanteLicencasInput = document.getElementById('emailSolicitanteLicencas');
+
+          if (userEmailSpan) userEmailSpan.textContent = emailUser;
+          if (emailSolicitanteInput) emailSolicitanteInput.value = emailUser;
+          if (emailSolicitanteVeiculoInput) emailSolicitanteVeiculoInput.value = emailUser;
+          if (emailSolicitanteLicencasInput) emailSolicitanteLicencasInput.value = emailUser;
+        } else {
+          window.location.href = "login.html";
+        }
+      });
+
+      window.sairDaPagina = function() {
+        signOut(auth).then(() => {
+          window.location.href = "login.html";
+        });
+      };
+    </script>
+</body>
+</html>
