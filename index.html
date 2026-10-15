@@ -71,6 +71,23 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- MENU PAI: VENCIMENTO COM SUBMENUS (ACRESCENTADO) -->
+                <div class="nav-dropdown">
+                    <button class="nav-item" onclick="toggleSubmenu(this)" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                        <span>VENCIMENTOS</span>
+                        <i class="fa-solid fa-chevron-down arrow-icon" style="font-size: 0.8rem; transition: transform 0.3s;"></i>
+                    </button>
+                    
+                    <div class="submenu" style="display: none;">
+                        <button class="nav-item" id="btnVencMotorista" onclick="selecionarAba('vencMotorista')" style="padding-left: 35px; font-size: 0.85rem;">
+                            <span>MOTORISTAS</span>
+                        </button>
+                        <button class="nav-item" id="btnVencVeiculo" onclick="selecionarAba('vencVeiculo')" style="padding-left: 35px; font-size: 0.85rem;">
+                            <span>VEÍCULOS</span>
+                        </button>
+                    </div>
+                </div>
             </nav>
             <div class="sidebar-bottom">
                 <button class="nav-item btn-exit" onclick="sairDaPagina()">
@@ -359,6 +376,54 @@
                         </div>
                     </div>
                 </form>
+            </div>
+
+            <!-- PAINEL VENCIMENTOS - MOTORISTAS (COM BOTÃO LIMPAR ACRESCENTADO) -->
+            <div class="search-panel" id="painelVencimentoMotorista" style="display: none;">
+                <h2>Consulta de Vencimentos - Motoristas</h2>
+                <form id="formVencimentoMotorista" onsubmit="event.preventDefault(); consultarVencimentoMotorista();">
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label for="nomeVencimentoMotorista">Nome Completo do Condutor</label>
+                            <input type="text" id="nomeVencimentoMotorista" placeholder="Digite o nome do condutor...">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="cpfVencimentoMotorista">CPF do Condutor <span class="required">*</span></label>
+                            <input type="text" id="cpfVencimentoMotorista" placeholder="000.000.000-00" required maxlength="14" oninput="mascaraCPF(this)">
+                        </div>
+                        <div class="form-group flex-1 btn-container-bottom" style="margin-top: auto; display: flex; gap: 10px;">
+                            <button type="submit" class="btn-send-email" style="flex: 2;">
+                                <i class="fa-solid fa-magnifying-glass"></i> Consultar
+                            </button>
+                            <button type="button" class="btn-clear-form" style="flex: 1;" onclick="limparVencimentoMotorista()">
+                                <i class="fa-solid fa-eraser"></i> Limpar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div id="resultadoVencimentos" style="margin-top: 25px;"></div>
+            </div>
+
+            <!-- PAINEL VENCIMENTOS - VEÍCULOS (COM BOTÃO LIMPAR ACRESCENTADO) -->
+            <div class="search-panel" id="painelVencimentoVeiculo" style="display: none;">
+                <h2>Consulta de Vencimentos - Veículos</h2>
+                <form id="formVencimentoVeiculo" onsubmit="event.preventDefault(); consultarVencimentoVeiculo();">
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label for="placaVencimentoVeiculo">Placa do Veículo <span class="required">*</span></label>
+                            <input type="text" id="placaVencimentoVeiculo" placeholder="ABC-1234 ou ABC1D23" required style="text-transform: uppercase;">
+                        </div>
+                        <div class="form-group flex-1 btn-container-bottom" style="margin-top: auto; display: flex; gap: 10px;">
+                            <button type="submit" class="btn-send-email" style="flex: 2;">
+                                <i class="fa-solid fa-magnifying-glass"></i> Consultar
+                            </button>
+                            <button type="button" class="btn-clear-form" style="flex: 1;" onclick="limparVencimentoVeiculo()">
+                                <i class="fa-solid fa-eraser"></i> Limpar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div id="resultadoVencimentosVeiculo" style="margin-top: 25px;"></div>
             </div>
 
             <!-- Painel Interditado - Vencimentos -->
