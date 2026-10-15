@@ -458,3 +458,105 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 .btn-login:hover {
     background-color: #004520;
 }
+
+/* ==========================================================================
+   ESTILOS DE CONSULTA DE VENCIMENTOS (NOVOS)
+   ========================================================================== */
+
+.card-resultado {
+    background: #fdfdfd;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+
+.tabela-vencimentos {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: #ffffff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.tabela-vencimentos th, 
+.tabela-vencimentos td {
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 0.88rem;
+    border-bottom: 1px solid #eee;
+}
+
+.tabela-vencimentos th {
+    background-color: #005a2b;
+    color: #ffffff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.8rem;
+}
+
+.tabela-vencimentos tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Badges de Status de Vencimento */
+.badge {
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+}
+
+.badge-verde {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.badge-amarelo {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+.badge-vermelho {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.badge-cinza {
+    background-color: #e2e3e5;
+    color: #383d41;
+    border: 1px solid #d6d8db;
+}
+
+/* Mensagens de Feedback nas Consultas */
+.carregando {
+    color: #005a2b;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 10px 0;
+}
+
+.msg-erro {
+    color: #d9534f;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 10px 0;
+}
+
+.msg-alerta {
+    color: #856404;
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: 0.88rem;
+}
