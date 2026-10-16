@@ -33,6 +33,10 @@
                 <span class="cnp-info">02.804.490/0001-79 - TRANSJORDANO LTDA</span>
                 <span class="user-email">henryperessinotti@transjordano.com.br</span>
             </div>
+            <!-- Ícone minimalista de Sair -->
+            <button class="btn-exit-icon" onclick="sairDaPagina()" title="Sair da página">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </button>
         </div>
     </header>
 
@@ -52,48 +56,57 @@
                     <span>HOME</span>
                 </button>
 
-                <!-- MENU PAI: DOCUMENTOS COM SUBMENUS -->
+                <!-- MENU PAI PRINCIPAL: CADASTRO -->
                 <div class="nav-dropdown">
-                    <button class="nav-item" onclick="toggleSubmenu(this)" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                        <span>DOCUMENTOS</span>
-                        <i class="fa-solid fa-chevron-down arrow-icon" style="font-size: 0.8rem; transition: transform 0.3s;"></i>
+                    <button class="nav-item" onclick="toggleSubmenu(event, this)">
+                        <span>CADASTRO</span>
+                        <i class="fa-solid fa-chevron-down arrow-icon"></i>
                     </button>
                     
+                    <!-- SUBMENU NIVEL 1 -->
                     <div class="submenu" style="display: none;">
-                        <button class="nav-item" id="btnMotorista" onclick="selecionarAba('motorista')" style="padding-left: 35px; font-size: 0.85rem;">
-                            <span>MOTORISTA</span>
-                        </button>
-                        <button class="nav-item" id="btnVeiculo" onclick="selecionarAba('veiculo')" style="padding-left: 35px; font-size: 0.85rem;">
-                            <span>VEICULOS</span>
-                        </button>
-                        <button class="nav-item" id="btnLicencas" onclick="selecionarAba('licencas')" style="padding-left: 35px; font-size: 0.85rem;">
-                            <span>LICENÇAS</span>
-                        </button>
-                    </div>
-                </div>
+                        
+                        <!-- SUBMENU: DOCUMENTOS -->
+                        <div class="nav-dropdown sub-dropdown">
+                            <button class="nav-item sub-item" onclick="toggleSubmenu(event, this)">
+                                <span>DOCUMENTOS</span>
+                                <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                            </button>
+                            <!-- SUBMENU NIVEL 2 -->
+                            <div class="submenu sub-submenu" style="display: none;">
+                                <button class="nav-item" id="btnMotorista" onclick="selecionarAba('motorista')">
+                                    <span>MOTORISTA</span>
+                                </button>
+                                <button class="nav-item" id="btnVeiculo" onclick="selecionarAba('veiculo')">
+                                    <span>VEÍCULOS</span>
+                                </button>
+                                <button class="nav-item" id="btnLicencas" onclick="selecionarAba('licencas')">
+                                    <span>LICENÇAS</span>
+                                </button>
+                            </div>
+                        </div>
 
-                <!-- MENU PAI: VENCIMENTO COM SUBMENUS (ACRESCENTADO) -->
-                <div class="nav-dropdown">
-                    <button class="nav-item" onclick="toggleSubmenu(this)" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                        <span>VENCIMENTOS</span>
-                        <i class="fa-solid fa-chevron-down arrow-icon" style="font-size: 0.8rem; transition: transform 0.3s;"></i>
-                    </button>
-                    
-                    <div class="submenu" style="display: none;">
-                        <button class="nav-item" id="btnVencMotorista" onclick="selecionarAba('vencMotorista')" style="padding-left: 35px; font-size: 0.85rem;">
-                            <span>MOTORISTAS</span>
-                        </button>
-                        <button class="nav-item" id="btnVencVeiculo" onclick="selecionarAba('vencVeiculo')" style="padding-left: 35px; font-size: 0.85rem;">
-                            <span>VEÍCULOS</span>
-                        </button>
+                        <!-- SUBMENU: VENCIMENTOS -->
+                        <div class="nav-dropdown sub-dropdown">
+                            <button class="nav-item sub-item" onclick="toggleSubmenu(event, this)">
+                                <span>VENCIMENTOS</span>
+                                <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                            </button>
+                            <!-- SUBMENU NIVEL 2 -->
+                            <div class="submenu sub-submenu" style="display: none;">
+                                <button class="nav-item" id="btnVencMotorista" onclick="selecionarAba('vencMotorista')">
+                                    <span>MOTORISTAS</span>
+                                </button>
+                                <button class="nav-item" id="btnVencVeiculo" onclick="selecionarAba('vencVeiculo')">
+                                    <span>VEÍCULOS</span>
+                                </button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </nav>
             <div class="sidebar-bottom">
-                <button class="nav-item btn-exit" onclick="sairDaPagina()">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                    <span>Sair da página</span>
-                </button>
             </div>
         </aside>
 
@@ -128,74 +141,89 @@
 
             <!-- Painel de Formulário - Motorista -->
             <div class="search-panel" id="painelBusca" style="display: none;">
-                <h2 id="tituloAba">Consulta de Documentos - Motorista</h2>
+                <div class="panel-header-custom">
+                    <div class="panel-icon-title">
+                        <i class="fa-solid fa-id-card"></i>
+                        <h2 id="tituloAba">Consulta de Documentos - Motorista</h2>
+                    </div>
+                    <p class="panel-subtitle">Preencha os dados do condutor e selecione os documentos que deseja solicitar.</p>
+                </div>
                 
                 <form id="formMotorista" onsubmit="event.preventDefault(); enviarSolicitacaoMotorista();">
-                    <!-- Topo: Dados do Condutor -->
-                    <div class="form-row">
+                    <div class="form-row-custom">
                         <div class="form-group flex-2">
-                            <label for="nomeMotorista">Nome Completo do Condutor <span class="required">*</span></label>
+                            <label for="nomeMotorista"><i class="fa-solid fa-user"></i> Nome Completo do Condutor <span class="required">*</span></label>
                             <input type="text" id="nomeMotorista" placeholder="Digite o nome completo do condutor..." required>
                         </div>
                         <div class="form-group flex-1">
-                            <label for="cpfMotorista">CPF do Condutor <span class="required">*</span></label>
+                            <label for="cpfMotorista"><i class="fa-solid fa-address-card"></i> CPF do Condutor <span class="required">*</span></label>
                             <input type="text" id="cpfMotorista" placeholder="000.000.000-00" required maxlength="14" oninput="mascaraCPF(this)">
                         </div>
                     </div>
 
-                    <!-- Meio: Checklist de Documentos -->
                     <div class="doc-checklist-container">
                         <div class="checklist-header">
-                            <h3>Selecione os Documentos Desejados:</h3>
+                            <h3><i class="fa-solid fa-folder-open"></i> Selecione os Documentos Desejados:</h3>
                             <label class="checkbox-label select-all-label">
                                 <input type="checkbox" id="chkTodosDocs" onclick="marcarTodosDocs(this)">
                                 <strong>Selecionar Todos</strong>
                             </label>
                         </div>
 
-                        <div class="checklist-grid">
-                            <label class="checkbox-item">
+                        <div class="checklist-grid-clean">
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check" value="CNH / Carteira de Habilitação">
+                                <i class="fa-solid fa-id-card item-icon"></i>
                                 <span>CNH / Carteira de Habilitação</span>
                             </label>
-                            <label class="checkbox-item">
+
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check" value="ASO - Atestado Ocupacional">
+                                <i class="fa-solid fa-notes-medical item-icon"></i>
                                 <span>ASO (Atestado Ocupacional)</span>
                             </label>
-                            <label class="checkbox-item">
+
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check" value="Curso MOPP">
+                                <i class="fa-solid fa-graduation-cap item-icon"></i>
                                 <span>Certificado Curso MOPP</span>
                             </label>
-                            <label class="checkbox-item">
+
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check" value="NR20">
+                                <i class="fa-solid fa-fire-flame-curved item-icon"></i>
                                 <span>NR20</span>
                             </label>
-                            <label class="checkbox-item">
+
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check" value="NR35">
+                                <i class="fa-solid fa-person-arrow-up-from-line item-icon"></i>
                                 <span>NR35</span>
                             </label>
-                            <label class="checkbox-item">
+
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check" value="TOXICOLOGICO">
-                                <span>TOXICOLOGICO</span>
+                                <i class="fa-solid fa-vial item-icon"></i>
+                                <span>Toxicológico</span>
                             </label>
-                            <label class="checkbox-item">
+
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check" value="AV.PSICOLOGICA">
-                                <span>AV.PSICOLOGICA</span>
+                                <i class="fa-solid fa-brain item-icon"></i>
+                                <span>Av. Psicológica</span>
                             </label>
                         </div>
 
-                        <!-- Botão Limpar pequeno à direita -->
-                        <div style="display: flex; justify-content: flex-end; margin-top: 15px; width: 100%;">
+                        <div style="display: flex; justify-content: flex-end; margin-top: 18px; width: 100%;">
                             <button type="button" class="btn-clear-form" style="width: auto !important; max-width: 140px !important; padding: 8px 20px !important; margin-left: auto !important;" onclick="limparFormularioMotorista()">
                                 <i class="fa-solid fa-eraser"></i> Limpar
                             </button>
                         </div>
                     </div>
 
-                    <!-- Rodapé: E-mail Obrigatório e Envio -->
                     <div class="form-row bottom-email-section">
                         <div class="form-group flex-2">
-                            <label for="emailSolicitante">E-mail para Recebimento dos Documentos <span class="required">*</span></label>
+                            <label for="emailSolicitante"><i class="fa-solid fa-envelope"></i> E-mail para Recebimento dos Documentos <span class="required">*</span></label>
                             <input type="email" id="emailSolicitante" placeholder="seuemail@transjordano.com.br" required>
                         </div>
                         <div class="form-group flex-1 btn-container-bottom">
@@ -209,62 +237,73 @@
 
             <!-- Painel de Formulário - Veículos -->
             <div class="search-panel" id="painelVeiculo" style="display: none;">
-                <h2>Consulta de Documentos - Veículos</h2>
+                <div class="panel-header-custom">
+                    <div class="panel-icon-title">
+                        <i class="fa-solid fa-truck"></i>
+                        <h2>Consulta de Documentos - Veículos</h2>
+                    </div>
+                    <p class="panel-subtitle">Informe a placa do veículo e selecione os documentos requeridos.</p>
+                </div>
                 
                 <form id="formVeiculo" onsubmit="event.preventDefault(); enviarSolicitacaoVeiculo();">
-                    <!-- Topo: Placa do Veículo -->
-                    <div class="form-row">
+                    <div class="form-row-custom">
                         <div class="form-group flex-2">
-                            <label for="placaVeiculo">Placa do Veículo <span class="required">*</span></label>
+                            <label for="placaVeiculo"><i class="fa-solid fa-truck-front"></i> Placa do Veículo <span class="required">*</span></label>
                             <input type="text" id="placaVeiculo" placeholder="ABC-1234 ou ABC1D23" required style="text-transform: uppercase;">
                         </div>
                     </div>
 
-                    <!-- Meio: Checklist de Documentos do Veículo -->
                     <div class="doc-checklist-container">
                         <div class="checklist-header">
-                            <h3>Selecione os Documentos Desejados:</h3>
+                            <h3><i class="fa-solid fa-folder-open"></i> Selecione os Documentos Desejados:</h3>
                             <label class="checkbox-label select-all-label">
                                 <input type="checkbox" id="chkTodosDocsVeiculo" onclick="marcarTodosDocsVeiculo(this)">
                                 <strong>Selecionar Todos</strong>
                             </label>
                         </div>
 
-                        <div class="checklist-grid">
-                            <label class="checkbox-item">
+                        <div class="checklist-grid-clean">
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check-veiculo" value="CRONOTACOGRAFO">
-                                <span>CRONOTACOGRAFO</span>
+                                <i class="fa-solid fa-stopwatch item-icon"></i>
+                                <span>Cronotacógrafo</span>
                             </label>
-                            <label class="checkbox-item">
+
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check-veiculo" value="CIV">
+                                <i class="fa-solid fa-clipboard-check item-icon"></i>
                                 <span>CIV</span>
                             </label>
-                            <label class="checkbox-item">
+
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check-veiculo" value="CRLV">
+                                <i class="fa-solid fa-file-contract item-icon"></i>
                                 <span>CRLV</span>
                             </label>
-                            <label class="checkbox-item">
+
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check-veiculo" value="CIPP">
+                                <i class="fa-solid fa-certificate item-icon"></i>
                                 <span>CIPP</span>
                             </label>
-                            <label class="checkbox-item">
+
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check-veiculo" value="CALIBRAGEM">
-                                <span>CALIBRAGEM</span>
+                                <i class="fa-solid fa-gauge-high item-icon"></i>
+                                <span>Calibragem</span>
                             </label>
                         </div>
 
-                        <!-- Botão Limpar pequeno à direita -->
-                        <div style="display: flex; justify-content: flex-end; margin-top: 15px; width: 100%;">
+                        <div style="display: flex; justify-content: flex-end; margin-top: 18px; width: 100%;">
                             <button type="button" class="btn-clear-form" style="width: auto !important; max-width: 140px !important; padding: 8px 20px !important; margin-left: auto !important;" onclick="limparFormularioVeiculo()">
                                 <i class="fa-solid fa-eraser"></i> Limpar
                             </button>
                         </div>
                     </div>
 
-                    <!-- Rodapé: E-mail Obrigatório e Envio -->
                     <div class="form-row bottom-email-section">
                         <div class="form-group flex-2">
-                            <label for="emailSolicitanteVeiculo">E-mail para Recebimento dos Documentos <span class="required">*</span></label>
+                            <label for="emailSolicitanteVeiculo"><i class="fa-solid fa-envelope"></i> E-mail para Recebimento dos Documentos <span class="required">*</span></label>
                             <input type="email" id="emailSolicitanteVeiculo" placeholder="seuemail@transjordano.com.br" required>
                         </div>
                         <div class="form-group flex-1 btn-container-bottom">
@@ -278,14 +317,19 @@
 
             <!-- Painel de Formulário - Licenças -->
             <div class="search-panel" id="painelLicencas" style="display: none;">
-                <h2>Consulta de Licenças</h2>
+                <div class="panel-header-custom">
+                    <div class="panel-icon-title">
+                        <i class="fa-solid fa-file-shield"></i>
+                        <h2>Consulta de Licenças</h2>
+                    </div>
+                    <p class="panel-subtitle">Selecione o Estado (UF) e marque as licenças necessárias para recebimento.</p>
+                </div>
                 
                 <form id="formLicencas" onsubmit="event.preventDefault(); enviarSolicitacaoLicencas();">
-                    <!-- Topo: Estado (UF) -->
-                    <div class="form-row">
+                    <div class="form-row-custom">
                         <div class="form-group flex-1">
-                            <label for="estadoLicenca">Estado (UF) <span class="required">*</span></label>
-                            <select id="estadoLicenca" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                            <label for="estadoLicenca"><i class="fa-solid fa-map-location-dot"></i> Estado (UF) <span class="required">*</span></label>
+                            <select id="estadoLicenca" required class="select-custom-uf">
                                 <option value="" disabled selected>Selecione a UF</option>
                                 <option value="AC">AC</option>
                                 <option value="AL">AL</option>
@@ -318,55 +362,63 @@
                         </div>
                     </div>
 
-                    <!-- Meio: Checklist de Documentos das Licenças -->
                     <div class="doc-checklist-container">
                         <div class="checklist-header">
-                            <h3>Selecione os Documentos Desejados:</h3>
+                            <h3><i class="fa-solid fa-folder-open"></i> Selecione os Documentos Desejados:</h3>
                             <label class="checkbox-label select-all-label">
                                 <input type="checkbox" id="chkTodosDocsLicencas" onclick="marcarTodosDocsLicencas(this)">
                                 <strong>Selecionar Todos</strong>
                             </label>
                         </div>
 
-                        <div class="checklist-grid">
-                            <label class="checkbox-item">
+                        <div class="checklist-grid-clean">
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check-licencas" value="AET">
+                                <i class="fa-solid fa-scroll item-icon"></i>
                                 <span>AET</span>
                             </label>
-                            <label class="checkbox-item">
+
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check-licencas" value="IBAMA_AMBIENTAL">
-                                <span>IBAMA / AMBIENTAL</span>
+                                <i class="fa-solid fa-leaf item-icon"></i>
+                                <span>IBAMA / Ambiental</span>
                             </label>
-                            <label class="checkbox-item">
+
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check-licencas" value="LETPP">
+                                <i class="fa-solid fa-shield-halved item-icon"></i>
                                 <span>LETPP</span>
                             </label>
-                            <label class="checkbox-item">
+
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check-licencas" value="LICENCA_OPERACAO">
-                                <span>LICENÇA DE OPERAÇÃO</span>
+                                <i class="fa-solid fa-building-circle-check item-icon"></i>
+                                <span>Licença de Operação</span>
                             </label>
-                            <label class="checkbox-item">
+
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check-licencas" value="ANTT">
+                                <i class="fa-solid fa-route item-icon"></i>
                                 <span>ANTT</span>
                             </label>
-                            <label class="checkbox-item">
+
+                            <label class="checkbox-card-item">
                                 <input type="checkbox" class="doc-check-licencas" value="CADASTRO FEDERAL">
-                                <span>CADASTRO FEDERAL</span>
+                                <i class="fa-solid fa-land-mine-on item-icon"></i>
+                                <span>Cadastro Federal</span>
                             </label>
                         </div>
 
-                        <!-- Botão Limpar -->
-                        <div style="display: flex; justify-content: flex-end; margin-top: 15px; width: 100%;">
+                        <div style="display: flex; justify-content: flex-end; margin-top: 18px; width: 100%;">
                             <button type="button" class="btn-clear-form" style="width: auto !important; max-width: 140px !important; padding: 8px 20px !important; margin-left: auto !important;" onclick="limparFormularioLicencas()">
                                 <i class="fa-solid fa-eraser"></i> Limpar
                             </button>
                         </div>
                     </div>
 
-                    <!-- Rodapé: E-mail Obrigatório e Envio -->
                     <div class="form-row bottom-email-section">
                         <div class="form-group flex-2">
-                            <label for="emailSolicitanteLicencas">E-mail para Recebimento dos Documentos <span class="required">*</span></label>
+                            <label for="emailSolicitanteLicencas"><i class="fa-solid fa-envelope"></i> E-mail para Recebimento dos Documentos <span class="required">*</span></label>
                             <input type="email" id="emailSolicitanteLicencas" placeholder="seuemail@transjordano.com.br" required>
                         </div>
                         <div class="form-group flex-1 btn-container-bottom">
@@ -378,66 +430,131 @@
                 </form>
             </div>
 
-            <!-- PAINEL VENCIMENTOS - MOTORISTAS (COM BOTÃO LIMPAR ACRESCENTADO) -->
+            <!-- PAINEL VENCIMENTOS - MOTORISTAS -->
             <div class="search-panel" id="painelVencimentoMotorista" style="display: none;">
-                <h2>Consulta de Vencimentos - Motoristas</h2>
-                <form id="formVencimentoMotorista" onsubmit="event.preventDefault(); consultarVencimentoMotorista();">
-                    <div class="form-row">
-                        <div class="form-group flex-2">
-                            <label for="nomeVencimentoMotorista">Nome Completo do Condutor</label>
-                            <input type="text" id="nomeVencimentoMotorista" placeholder="Digite o nome do condutor...">
-                        </div>
-                        <div class="form-group flex-1">
-                            <label for="cpfVencimentoMotorista">CPF do Condutor <span class="required">*</span></label>
-                            <input type="text" id="cpfVencimentoMotorista" placeholder="000.000.000-00" required maxlength="14" oninput="mascaraCPF(this)">
-                        </div>
-                        <div class="form-group flex-1 btn-container-bottom" style="margin-top: auto; display: flex; gap: 10px;">
-                            <button type="submit" class="btn-send-email" style="flex: 2;">
-                                <i class="fa-solid fa-magnifying-glass"></i> Consultar
-                            </button>
-                            <button type="button" class="btn-clear-form" style="flex: 1;" onclick="limparVencimentoMotorista()">
-                                <i class="fa-solid fa-eraser"></i> Limpar
-                            </button>
+                <div class="panel-header-custom">
+                    <div class="panel-icon-title">
+                        <i class="fa-solid fa-user-clock"></i>
+                        <h2>Consulta de Vencimentos - Motoristas</h2>
+                    </div>
+                    <p class="panel-subtitle">Consulte rapidamente a situação de validade dos documentos dos condutores.</p>
+                </div>
+
+                <!-- CARDS DE RESUMO/STATUS DE VENCIMENTO -->
+                <div class="vencimentos-kpi-container">
+                    <div class="kpi-card kpi-vermelho">
+                        <div class="kpi-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Vencidos</span>
+                            <span class="kpi-value" id="kpiMotoristaVencidos">--</span>
                         </div>
                     </div>
+
+                    <div class="kpi-card kpi-amarelo">
+                        <div class="kpi-icon"><i class="fa-solid fa-clock"></i></div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">A Vencer (30 dias)</span>
+                            <span class="kpi-value" id="kpiMotoristaAVencer">--</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card kpi-verde">
+                        <div class="kpi-icon"><i class="fa-solid fa-circle-check"></i></div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Em Dia</span>
+                            <span class="kpi-value" id="kpiMotoristaEmDia">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FORMULÁRIO COMPACTO DE BUSCA INLINE -->
+                <form id="formVencimentoMotorista" class="vencimento-search-box" onsubmit="event.preventDefault(); consultarVencimentoMotorista();">
+                    <div class="vencimento-input-group flex-2">
+                        <label for="nomeVencimentoMotorista"><i class="fa-solid fa-user"></i> Nome do Condutor</label>
+                        <input type="text" id="nomeVencimentoMotorista" placeholder="Nome do motorista...">
+                    </div>
+
+                    <div class="vencimento-input-group flex-1">
+                        <label for="cpfVencimentoMotorista"><i class="fa-solid fa-address-card"></i> CPF do Condutor <span class="required">*</span></label>
+                        <input type="text" id="cpfVencimentoMotorista" placeholder="000.000.000-00" required maxlength="14" oninput="mascaraCPF(this)">
+                    </div>
+
+                    <div class="vencimento-actions-inline">
+                        <button type="submit" class="btn-action-sm btn-green">
+                            <i class="fa-solid fa-magnifying-glass"></i> Consultar
+                        </button>
+                        <button type="button" class="btn-action-sm btn-red" onclick="limparVencimentoMotorista()">
+                            <i class="fa-solid fa-eraser"></i> Limpar
+                        </button>
+                    </div>
                 </form>
-                <div id="resultadoVencimentos" style="margin-top: 25px;"></div>
+
+                <div id="resultadoVencimentos" class="resultado-vencimentos-box"></div>
             </div>
 
-            <!-- PAINEL VENCIMENTOS - VEÍCULOS (COM BOTÃO LIMPAR ACRESCENTADO) -->
+            <!-- PAINEL VENCIMENTOS - VEÍCULOS -->
             <div class="search-panel" id="painelVencimentoVeiculo" style="display: none;">
-                <h2>Consulta de Vencimentos - Veículos</h2>
-                <form id="formVencimentoVeiculo" onsubmit="event.preventDefault(); consultarVencimentoVeiculo();">
-                    <div class="form-row">
-                        <div class="form-group flex-2">
-                            <label for="placaVencimentoVeiculo">Placa do Veículo <span class="required">*</span></label>
-                            <input type="text" id="placaVencimentoVeiculo" placeholder="ABC-1234 ou ABC1D23" required style="text-transform: uppercase;">
-                        </div>
-                        <div class="form-group flex-1 btn-container-bottom" style="margin-top: auto; display: flex; gap: 10px;">
-                            <button type="submit" class="btn-send-email" style="flex: 2;">
-                                <i class="fa-solid fa-magnifying-glass"></i> Consultar
-                            </button>
-                            <button type="button" class="btn-clear-form" style="flex: 1;" onclick="limparVencimentoVeiculo()">
-                                <i class="fa-solid fa-eraser"></i> Limpar
-                            </button>
+                <div class="panel-header-custom">
+                    <div class="panel-icon-title">
+                        <i class="fa-solid fa-truck-clock"></i>
+                        <h2>Consulta de Vencimentos - Veículos</h2>
+                    </div>
+                    <p class="panel-subtitle">Verifique o status de inspeções e licenças da frota em tempo real.</p>
+                </div>
+
+                <!-- CARDS DE RESUMO/STATUS DE VENCIMENTO VEICULAR -->
+                <div class="vencimentos-kpi-container">
+                    <div class="kpi-card kpi-vermelho">
+                        <div class="kpi-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Vencidos</span>
+                            <span class="kpi-value" id="kpiVeiculoVencidos">--</span>
                         </div>
                     </div>
+
+                    <div class="kpi-card kpi-amarelo">
+                        <div class="kpi-icon"><i class="fa-solid fa-clock"></i></div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">A Vencer (30 dias)</span>
+                            <span class="kpi-value" id="kpiVeiculoAVencer">--</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card kpi-verde">
+                        <div class="kpi-icon"><i class="fa-solid fa-circle-check"></i></div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Em Dia</span>
+                            <span class="kpi-value" id="kpiVeiculoEmDia">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FORMULÁRIO COMPACTO DE BUSCA INLINE -->
+                <form id="formVencimentoVeiculo" class="vencimento-search-box" onsubmit="event.preventDefault(); consultarVencimentoVeiculo();">
+                    <div class="vencimento-input-group flex-2">
+                        <label for="placaVencimentoVeiculo"><i class="fa-solid fa-truck-front"></i> Placa do Veículo <span class="required">*</span></label>
+                        <input type="text" id="placaVencimentoVeiculo" placeholder="ABC-1234 ou ABC1D23" required style="text-transform: uppercase;">
+                    </div>
+
+                    <div class="vencimento-actions-inline" style="margin-top: auto;">
+                        <button type="submit" class="btn-action-sm btn-green">
+                            <i class="fa-solid fa-magnifying-glass"></i> Consultar
+                        </button>
+                        <button type="button" class="btn-action-sm btn-red" onclick="limparVencimentoVeiculo()">
+                            <i class="fa-solid fa-eraser"></i> Limpar
+                        </button>
+                    </div>
                 </form>
-                <div id="resultadoVencimentosVeiculo" style="margin-top: 25px;"></div>
+
+                <div id="resultadoVencimentosVeiculo" class="resultado-vencimentos-box"></div>
             </div>
 
-            <!-- Painel Interditado - Vencimentos -->
+            <!-- Painéis Interditados -->
             <div id="painelVencimentos" style="display: none; width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;">
                 <img src="static/imagens/interditado.png" alt="Menu Interditado" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0;">
             </div>
 
-            <!-- Painel Interditado - Perdas e Sobras -->
             <div id="painelPerdasSobras" style="display: none; width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;">
-                <img src="static/imagens/interditado.png" alt="Menu Interditado" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0;">
-            </div>
-
-            <!-- Painel Interditado - Estadia -->
-            <div id="painelEstadia" style="display: none; width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;">
                 <img src="static/imagens/interditado.png" alt="Menu Interditado" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0;">
             </div>
 
@@ -445,47 +562,5 @@
     </div>
 
     <script src="script.js"></script>
-
-    <!-- Verificação de Sessão Firebase e Preenchimento do E-mail -->
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-      import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyA7Z5YR7dMRGboOZS9RwGRGf5fdL5KCvPM",
-        authDomain: "transjordano-aa4cf.firebaseapp.com",
-        projectId: "transjordano-aa4cf",
-        storageBucket: "transjordano-aa4cf.firebasestorage.app",
-        messagingSenderId: "654667608333",
-        appId: "1:654667608333:web:e734de92664c821ec64044",
-        measurementId: "G-F6ZXYEFR8B"
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          const emailUser = user.email;
-          const userEmailSpan = document.querySelector('.user-email');
-          const emailSolicitanteInput = document.getElementById('emailSolicitante');
-          const emailSolicitanteVeiculoInput = document.getElementById('emailSolicitanteVeiculo');
-          const emailSolicitanteLicencasInput = document.getElementById('emailSolicitanteLicencas');
-
-          if (userEmailSpan) userEmailSpan.textContent = emailUser;
-          if (emailSolicitanteInput) emailSolicitanteInput.value = emailUser;
-          if (emailSolicitanteVeiculoInput) emailSolicitanteVeiculoInput.value = emailUser;
-          if (emailSolicitanteLicencasInput) emailSolicitanteLicencasInput.value = emailUser;
-        } else {
-          window.location.href = "login.html";
-        }
-      });
-
-      window.sairDaPagina = function() {
-        signOut(auth).then(() => {
-          window.location.href = "login.html";
-        });
-      };
-    </script>
 </body>
 </html>

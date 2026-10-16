@@ -113,14 +113,19 @@ def calcular_vencimento_crlv(nome_arquivo, caminho_completo=None):
     """Calcula a data exata de vencimento do CRLV baseado no ano do exercício, final da placa e PBT."""
     nome_upper = nome_arquivo.upper()
     
+    # Busca segura do ano de 4 dígitos no nome do arquivo
     ano_match = re.search(r'CRLV[_\s-]*(\d{4})', nome_upper)
     if not ano_match:
-        ano_match = re.search(r'20\d{2}', nome_upper)
+        ano_match = re.search(r'(20\d{2})', nome_upper)
         
-    if not ano_match:
+    if not ano_match or not ano_match.groups():
         return None
 
-    ano_exercicio = int(ano_match.group(1))
+    try:
+        ano_exercicio = int(ano_match.group(1))
+    except (IndexError, ValueError):
+        return None
+
     ano_vencimento = ano_exercicio + 1
 
     ultimo_digito = extrair_ultimo_digito_placa(nome_upper)
@@ -842,7 +847,6 @@ def consultar_vencimentos_veiculos():
                         mtime = 0
 
                     item = {
-                        'categoria': os.path.basename(raiz),
                         'documento': f,
                         'validade': status_info['data_formatada'],
                         'status': status_info['status'],
@@ -867,10 +871,10 @@ def consultar_vencimentos_veiculos():
                             if item['mtime'] > atual['mtime']:
                                 documentos_por_tipo[tipo_doc] = item
 
-    if not documentos_por_tipo:
-        return jsonify({'erro': f'Nenhum documento encontrado para a placa {placa_busca}.'}), 404
-
     documentos_finais = list(documentos_por_tipo.values())
+
+    if not documentos_finais:
+        return jsonify({'erro': f'Nenhum documento localizado para a placa {placa_busca}.'}), 404
 
     return jsonify({
         'placa': placa_busca,
@@ -879,4 +883,5 @@ def consultar_vencimentos_veiculos():
 
 
 if __name__ == '__main__':
+    # Executa a aplicação Flask na porta 5000 acessível na rede
     app.run(host='0.0.0.0', port=5000, debug=True)

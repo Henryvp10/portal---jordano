@@ -11,7 +11,7 @@ const API_URL_VEICULO = `http://${SERVER_IP}:${PORT}/api/enviar-veiculo`;
 const API_URL_LICENCAS = `http://${SERVER_IP}:${PORT}/api/enviar-licencas`;
 const API_URL_VENCIMENTOS = `http://${SERVER_IP}:${PORT}/api/enviar-vencimentos`;
 
-// Novas URLs para consulta de vencimentos (ACRESCENTADO)
+// Novas URLs para consulta de vencimentos
 const API_URL_CONSULTA_VENC_MOTORISTAS = `http://${SERVER_IP}:${PORT}/api/vencimentos/motoristas`;
 const API_URL_CONSULTA_VENC_VEICULOS = `http://${SERVER_IP}:${PORT}/api/vencimentos/veiculos`;
 
@@ -23,12 +23,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// FUNÇÃO PARA ABRIR E FECHAR O SUBMENU (ACESSO DOCUMENTAÇÃO)
-function toggleSubmenu(button) {
+// FUNÇÃO PARA ABRIR E FECHAR O SUBMENU (ACESSO DOCUMENTAÇÃO / VENCIMENTOS / CADASTRO)
+function toggleSubmenu(evt, button) {
+    if (evt) evt.stopPropagation();
+    
     const dropdown = button.closest('.nav-dropdown');
     if (dropdown) {
         dropdown.classList.toggle('open');
+        
+        const submenu = dropdown.querySelector(':scope > .submenu');
+        if (submenu) {
+            submenu.style.display = dropdown.classList.contains('open') ? 'block' : 'none';
+        }
     }
+}
+
+// Redirecionamento ao clicar no ícone de Sair na topbar
+function sairDaPagina() {
+    window.location.href = "login.html";
 }
 
 // Autenticação e Redirecionamento da Tela de Login
@@ -191,7 +203,7 @@ function limparFormularioLicencas() {
     if (chkTodos) chkTodos.checked = false;
 }
 
-// FUNÇÕES DE LIMPEZA PARA A CONSULTA DE VENCIMENTOS (ACRESCENTADO)
+// FUNÇÕES DE LIMPEZA PARA A CONSULTA DE VENCIMENTOS (ATUALIZADAS PARA RESETAR OS KPIS)
 function limparVencimentoMotorista() {
     if (document.getElementById('nomeVencimentoMotorista')) {
         document.getElementById('nomeVencimentoMotorista').value = '';
@@ -203,6 +215,11 @@ function limparVencimentoMotorista() {
     if (divResultado) {
         divResultado.innerHTML = '';
     }
+
+    // Reseta os cards no topo
+    if (document.getElementById('kpiMotoristaVencidos')) document.getElementById('kpiMotoristaVencidos').textContent = '--';
+    if (document.getElementById('kpiMotoristaAVencer')) document.getElementById('kpiMotoristaAVencer').textContent = '--';
+    if (document.getElementById('kpiMotoristaEmDia')) document.getElementById('kpiMotoristaEmDia').textContent = '--';
 }
 
 function limparVencimentoVeiculo() {
@@ -213,6 +230,11 @@ function limparVencimentoVeiculo() {
     if (divResultado) {
         divResultado.innerHTML = '';
     }
+
+    // Reseta os cards no topo
+    if (document.getElementById('kpiVeiculoVencidos')) document.getElementById('kpiVeiculoVencidos').textContent = '--';
+    if (document.getElementById('kpiVeiculoAVencer')) document.getElementById('kpiVeiculoAVencer').textContent = '--';
+    if (document.getElementById('kpiVeiculoEmDia')) document.getElementById('kpiVeiculoEmDia').textContent = '--';
 }
 
 // Envio do formulário Motorista (Comunicação com o Servidor Python via API)
@@ -450,7 +472,7 @@ async function enviarSolicitacaoVencimentos() {
     }
 }
 
-// --- CONSULTAS DE VENCIMENTOS (ACRESCENTADAS) ---
+// --- CONSULTAS DE VENCIMENTOS ---
 
 // Consulta Vencimentos Motorista por CPF/Nome
 async function consultarVencimentoMotorista() {
@@ -470,13 +492,19 @@ async function consultarVencimentoMotorista() {
         const dados = await resposta.json();
 
         if (resposta.ok) {
+            // Atualiza a tabela com os resultados
             renderizarTabelaVencimentos(dados.documentos, `Condutor: ${dados.condutor} (CPF: ${dados.cpf})`, divResultado);
+            
+            // ATUALIZA OS CARDS (KPIS) SUPERIORES DO MOTORISTA
+            atualizarKPIsVencimentos(dados.documentos, 'kpiMotoristaVencidos', 'kpiMotoristaAVencer', 'kpiMotoristaEmDia');
         } else {
             if (divResultado) divResultado.innerHTML = `<p class="msg-erro">Atenção: ${dados.erro || 'Nenhum registro localizado.'}</p>`;
+            atualizarKPIsVencimentos([], 'kpiMotoristaVencidos', 'kpiMotoristaAVencer', 'kpiMotoristaEmDia');
         }
     } catch (erro) {
         console.error('Erro na busca de vencimentos:', erro);
         if (divResultado) divResultado.innerHTML = '<p class="msg-erro">Erro ao conectar com o servidor Python.</p>';
+        atualizarKPIsVencimentos([], 'kpiMotoristaVencidos', 'kpiMotoristaAVencer', 'kpiMotoristaEmDia');
     }
 }
 
@@ -497,14 +525,51 @@ async function consultarVencimentoVeiculo() {
         const dados = await resposta.json();
 
         if (resposta.ok) {
+            // Atualiza a tabela com os resultados
             renderizarTabelaVencimentos(dados.documentos, `Veículo Placa: ${dados.placa}`, divResultado);
+
+            // ATUALIZA OS CARDS (KPIS) SUPERIORES DO VEÍCULO
+            atualizarKPIsVencimentos(dados.documentos, 'kpiVeiculoVencidos', 'kpiVeiculoAVencer', 'kpiVeiculoEmDia');
         } else {
             if (divResultado) divResultado.innerHTML = `<p class="msg-erro">Atenção: ${dados.erro || 'Nenhum registro localizado.'}</p>`;
+            atualizarKPIsVencimentos([], 'kpiVeiculoVencidos', 'kpiVeiculoAVencer', 'kpiVeiculoEmDia');
         }
     } catch (erro) {
         console.error('Erro na busca de vencimentos:', erro);
         if (divResultado) divResultado.innerHTML = '<p class="msg-erro">Erro ao conectar com o servidor Python.</p>';
+        atualizarKPIsVencimentos([], 'kpiVeiculoVencidos', 'kpiVeiculoAVencer', 'kpiVeiculoEmDia');
     }
+}
+
+// FUNÇÃO AUXILIAR PARA ATUALIZAR OS CARDS (KPIS) DE STATUS NO TOPO
+function atualizarKPIsVencimentos(documentos, idVencidos, idAVencer, idEmDia) {
+    let qtdVencidos = 0;
+    let qtdAVencer = 0;
+    let qtdEmDia = 0;
+
+    if (documentos && Array.isArray(documentos)) {
+        documentos.forEach(doc => {
+            // Verifica pela cor retornada no JSON ou pelo texto do status
+            const statusTexto = (doc.status || '').toLowerCase();
+            const cor = (doc.cor || '').toLowerCase();
+
+            if (cor === 'vermelho' || statusTexto.includes('vencido')) {
+                qtdVencidos++;
+            } else if (cor === 'amarelo' || statusTexto.includes('vencer') || statusTexto.includes('atencao')) {
+                qtdAVencer++;
+            } else if (cor === 'verde' || statusTexto.includes('em dia') || statusTexto.includes('ok')) {
+                qtdEmDia++;
+            }
+        });
+    }
+
+    const elVencidos = document.getElementById(idVencidos);
+    const elAVencer = document.getElementById(idAVencer);
+    const elEmDia = document.getElementById(idEmDia);
+
+    if (elVencidos) elVencidos.textContent = qtdVencidos;
+    if (elAVencer) elAVencer.textContent = qtdAVencer;
+    if (elEmDia) elEmDia.textContent = qtdEmDia;
 }
 
 // Renderiza a tabela de resultados com Badges de Cores

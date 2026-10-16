@@ -6,35 +6,69 @@
     <title>Login - Portal Transjordano</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="login-page-body">
 
-    <div class="login-container">
-        <div class="login-card">
-            
-            <div class="login-header">
-                <h2>TRANSJORDANO</h2>
-                <p>Acesse com suas credenciais para continuar</p>
+    <div class="login-split-container">
+        
+        <!-- PAINEL ESQUERDO: FUNDO VERDE COM CARD BRANCO -->
+        <div class="login-panel-left">
+            <div class="login-card">
+                
+                <div class="login-header">
+                    <h2 class="login-brand-title">TRANSJORDANO</h2>
+                    <p>Acesse com segurança as informações de condutores, frota e vencimentos em tempo real.</p>
+                </div>
+
+                <form id="formLogin">
+                    <div class="form-group">
+                        <label for="usuarioLogin">E-mail ou Usuário <span class="required">*</span></label>
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-envelope input-icon"></i>
+                            <input type="email" id="usuarioLogin" placeholder="Digite seu e-mail" required maxlength="100">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label for="senhaLogin">Senha <span class="required">*</span></label>
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="senhaLogin" placeholder="Digite sua senha" required>
+                            <i class="fa-solid fa-eye-slash toggle-password" id="toggleSenha" onclick="toggleMostrarSenha()"></i>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-login" id="btnEntrar">ENTRAR</button>
+                </form>
+
             </div>
-
-            <form id="formLogin" onsubmit="autenticarUsuario(event)">
-                <div class="form-group">
-                    <label for="usuarioLogin">E-mail ou Usuário <span class="required">*</span></label>
-                    <input type="text" id="usuarioLogin" placeholder="Digite seu e-mail ou usuário" required>
-                </div>
-
-                <div class="form-group" style="margin-top: 15px;">
-                    <label for="senhaLogin">Senha <span class="required">*</span></label>
-                    <input type="password" id="senhaLogin" placeholder="Digite sua senha" required>
-                </div>
-
-                <button type="submit" class="btn-login">ENTRAR</button>
-            </form>
-
         </div>
+
+        <!-- PAINEL DIREITO: IMAGEM DE PAREDE -->
+        <div class="login-panel-right" style="padding: 0; background: none;">
+          <img src="static/imagens/transjordanologin.jpg" alt="Login Transjordano" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+        </div>
+
     </div>
 
-    <script src="script.js"></script>
+    <!-- Alternar exibição de senha -->
+    <script>
+        function toggleMostrarSenha() {
+            const campoSenha = document.getElementById('senhaLogin');
+            const iconeOlho = document.getElementById('toggleSenha');
+            
+            if (campoSenha.type === 'password') {
+                campoSenha.type = 'text';
+                iconeOlho.classList.remove('fa-eye-slash');
+                iconeOlho.classList.add('fa-eye');
+            } else {
+                campoSenha.type = 'password';
+                iconeOlho.classList.remove('fa-eye');
+                iconeOlho.classList.add('fa-eye-slash');
+            }
+        }
+    </script>
 
     <!-- Integração do Firebase Auth -->
     <script type="module">
@@ -54,20 +88,29 @@
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
 
-      window.autenticarUsuario = function(event) {
+      const formLogin = document.getElementById('formLogin');
+      const btnEntrar = document.getElementById('btnEntrar');
+
+      formLogin.addEventListener('submit', (event) => {
           event.preventDefault();
           
-          const email = document.getElementById('usuarioLogin').value.trim();
+          const email = document.getElementById('usuarioLogin').value.trim().toLowerCase();
           const senha = document.getElementById('senhaLogin').value.trim();
+
+          btnEntrar.disabled = true;
+          btnEntrar.textContent = "Aguarde...";
 
           signInWithEmailAndPassword(auth, email, senha)
             .then((userCredential) => {
               window.location.href = "index.html";
             })
             .catch((error) => {
+              console.error("Erro do Firebase:", error.code, error.message);
               alert("Erro ao realizar login: Verifique seu e-mail e senha.");
+              btnEntrar.disabled = false;
+              btnEntrar.textContent = "ENTRAR";
             });
-      };
+      });
     </script>
 </body>
 </html>
